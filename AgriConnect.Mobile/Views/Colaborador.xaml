@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriConnect.Mobile.Views.Colaborador"
+             xmlns:vm="clr-namespace:AgriConnect.Mobile.ViewModel"
+             x:DataType="vm:ColaboradorViewModel"
+             Title="Colaborador">
+    <VerticalStackLayout>
+        <Entry Text="{Binding Nombre}" Placeholder="Introduce nombre"/>
+        <Entry Text="{Binding Apellidos}" Placeholder="Introduce apellidos"/>
+        <Button Text="Guardar" Command="{Binding GuardarColaboradorCommand}" />
+        <CollectionView ItemsSource="{Binding Errors}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding .}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

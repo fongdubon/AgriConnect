@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AgriConnect.Mobile.Services;
+using Microsoft.Extensions.Logging;
 
 namespace AgriConnect.Mobile
 {
@@ -14,6 +15,7 @@ namespace AgriConnect.Mobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            //builder.Services.AddSingleton<IFunctions,Functions>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

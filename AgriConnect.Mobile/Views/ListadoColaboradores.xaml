@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriConnect.Mobile.Views.ListadoColaboradores"
+             xmlns:vm="clr-namespace:AgriConnect.Mobile.ViewModel"
+             xmlns:mo="clr-namespace:AgriConnect.Mobile.Models"
+             xmlns:te="clr-namespace:AgriConnect.Mobile.Views.Templates"
+             Title="Colaboradores">
+    <VerticalStackLayout x:DataType="vm:ColaboradoresViewModel">
+        <Button Command="{Binding ListarColaboradoresCommand}" Text="Mostrar colaboradores"></Button>
+        <CollectionView ItemsSource="{Binding Colaboradores}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="mo:ColaboradoresModels">
+                    <te:ItemsColaboradores/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
