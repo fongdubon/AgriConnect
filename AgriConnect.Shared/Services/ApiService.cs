@@ -1,4 +1,5 @@
-﻿using AgriConnect.Shared.Entities;
+﻿using AgriConnect.Shared.DTO;
+using AgriConnect.Shared.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -277,6 +278,48 @@ namespace AgriConnect.Shared.Services
                 };
             }
 
+        }
+        public async Task<Response> LoginAsync(
+    string urlBase,
+    string servicePrefix,
+    string controller,
+    TokenRequest request)
+        {
+            try
+            {
+                var jsonRequest = JsonConvert.SerializeObject(request);
+                var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
+                using var client = new HttpClient { BaseAddress = new Uri(urlBase) };
+
+                var url = $"{servicePrefix}{controller}"; // e.g., "api/Account/Login"
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var token = JsonConvert.DeserializeObject<TokenResponse>(result);
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = token!
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
         }
     }
 }

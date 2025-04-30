@@ -10,7 +10,7 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate vi:ListadoColaboradores}"
+        ContentTemplate="{DataTemplate vi:Colaborador}"
         Route="MainPage" />
 
 </Shell>

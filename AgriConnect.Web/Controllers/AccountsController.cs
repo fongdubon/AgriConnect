@@ -13,6 +13,8 @@ using System.Text;
 
 namespace AgriConnect.Web.Controllers
 {
+    [ApiController]
+    [Route("/api/accounts")]
     public class AccountsController:Controller
     {
         private readonly IUserHelper userHelper;
@@ -29,30 +31,37 @@ namespace AgriConnect.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            if(User.Identity.IsAuthenticated)
+            if(User.Identity!.IsAuthenticated)
             {
                 return RedirectToAction(nameof(Index), "Home");
             }
             return View(new LoginDTO());
         }
         //Post
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody]LoginDTO loginDTO)
         {
-            if(ModelState.IsValid)
+            var result = await this.userHelper.LoginAsync(loginDTO);
+            if (result.Succeeded)
             {
-                Microsoft.AspNetCore.Identity.SignInResult result = await userHelper.LoginAsync(loginDTO);
-                if (result.Succeeded)
-                {
-                    if(Request.Query.Keys.Contains("ReturnUrl"))
-                    {
-                        return Redirect(Request.Query["ReturnUrl"].First());
-                    }
-                    return RedirectToAction(nameof(Index), "Home");
-                }
-                ModelState.AddModelError(string.Empty, "Email o contraseña incorrecta");
+                var user = await this.userHelper.GetUserAsync(loginDTO.Email);
+                return Ok(BuildToken(user));
             }
-            return View(loginDTO);
+            return BadRequest("Email o contraseña icorrectos");
+            //if(ModelState.IsValid)
+            //{
+            //    Microsoft.AspNetCore.Identity.SignInResult result = await userHelper.LoginAsync(loginDTO);
+            //    if (result.Succeeded)
+            //    {
+            //        if(Request!.Query.Keys.Contains("ReturnUrl"))
+            //        {
+            //            return Redirect(Request.Query["ReturnUrl"].First()!);
+            //        }
+            //        return RedirectToAction(nameof(Index), "Home");
+            //    }
+            //    ModelState.AddModelError(string.Empty, "Email o contraseña incorrecta");
+            //}
+            //return View(loginDTO);
         }
         public async Task<IActionResult> Logout()
         {

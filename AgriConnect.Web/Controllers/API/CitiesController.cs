@@ -1,11 +1,15 @@
 ﻿using AgriConnect.Shared;
 using AgriConnect.Web.Data;
 using AgriConnect.Web.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AgriConnect.Web.Controllers.API
 {
+    [ApiController]
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[Controller]")]
     public class CitiesController : ControllerBase
     {

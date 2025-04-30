@@ -13,5 +13,7 @@ namespace AgriConnect.Web.Helpers
         Task<bool> IsUserInRoleAsync(User user, string roleName);
         Task<SignInResult> LoginAsync(LoginDTO login);
         Task LogoutAsync();
+        Task<SignInResult> ValidatePasswordAsync(User user, string password);
+
     }
 }
